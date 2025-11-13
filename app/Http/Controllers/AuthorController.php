@@ -75,39 +75,27 @@ class AuthorController extends Controller
      * Update the specified resource in storage.
      */
   public function update(Request $request, $id)
-    {
-        $author = Author::find($id);
+{
+    $author = Author::find($id);
 
-        if (!$author) {
-            return redirect()->route('authors.index')
-                             ->with('error', 'Author not found.');
-        }
-
-        // Validate inputs
-        $request->validate([
-            'name'       => 'required|string|max:255',
-            'email'      => 'required|email|max:255',
-            'website'    => 'nullable|url|max:255',
-            'phone'      => 'nullable|string|max:20',
-            'biography'  => 'nullable|string|max:1000',
-            'birth_date' => 'nullable|date',
-            'country'    => 'nullable|string|max:100',
-        ]);
-
-        // Update only allowed fields
-        $author->update($request->only([
-            'name',
-            'email',
-            'website',
-            'phone',
-            'biography',
-            'birth_date',
-            'country'
-        ]));
-
-        return redirect()->route('authors.index')
-                         ->with('success', 'Author updated successfully!');
+    if (!$author) {
+        return redirect()->back()->withErrors(['error' => 'Author not found']);
     }
+
+    $author->update($request->only([
+        'name',
+        'email',
+        'website',
+        'phone',
+        'biography',
+        'birth_date',
+        'country'
+    ]));
+
+    return redirect()
+        ->route('authors.index')
+        ->with('success', 'Author updated successfully');
+}
 
 
     /**

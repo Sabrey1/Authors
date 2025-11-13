@@ -5,7 +5,7 @@
             <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg overflow-hidden">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class="overflow-x-auto">
-                         <form action="{{ route('authors.update', $author->id) }}" method="POST">
+                         <form action="{{ route('authors.update', $author->id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <div class="text-center text-3xl">
