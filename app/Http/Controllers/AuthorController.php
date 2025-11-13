@@ -11,10 +11,9 @@ class AuthorController extends Controller
      * Display a listing of the resource.
      */
     public function index(Request $request)
-    {
-        $query = Author::query();
+{
+    $query = Author::query();
 
-    // Check if search input exists
     if ($request->has('search') && !empty($request->search)) {
         $search = $request->search;
 
@@ -23,9 +22,12 @@ class AuthorController extends Controller
               ->orWhere('email', 'like', "%{$search}%");
         });
     }
-         $authors = Author::paginate(10);
-        return view('Author.index', compact('authors'));
-    }
+
+    // Use the query here!
+    $authors = $query->paginate(10);
+
+    return view('Author.index', compact('authors'));
+}
 
     /**
      * Show the form for creating a new resource.
