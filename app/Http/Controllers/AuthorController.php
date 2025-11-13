@@ -10,8 +10,19 @@ class AuthorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $query = Author::query();
+
+    // Check if search input exists
+    if ($request->has('search') && !empty($request->search)) {
+        $search = $request->search;
+
+        $query->where(function($q) use ($search) {
+            $q->where('name', 'like', "%{$search}%")
+              ->orWhere('email', 'like', "%{$search}%");
+        });
+    }
          $authors = Author::paginate(10);
         return view('Author.index', compact('authors'));
     }
@@ -81,22 +92,13 @@ class AuthorController extends Controller
     if (!$author) {
         return redirect()->back()->withErrors(['error' => 'Author not found']);
     }
-
-    $author->update($request->only([
-        'name',
-        'email',
-        'website',
-        'phone',
-        'biography',
-        'birth_date',
-        'country'
-    ]));
-
-    return redirect()
+    else{
+        $author->update($request->all());
+        return redirect()
         ->route('authors.index')
         ->with('success', 'Author updated successfully');
+    } 
 }
-
 
     /**
      * Remove the specified resource from storage.

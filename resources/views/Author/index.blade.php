@@ -18,6 +18,11 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
 
                     <div class="overflow-x-auto">
+                        <form method="GET" action="{{ route('authors.index') }}" class="mb-4">
+                            <input type="text" name="search" placeholder="Search by name or email" 
+                                value="{{ request('search') }}" class="border p-2 rounded">
+                            <button type="submit" class="bg-blue-500 text-white p-2 rounded">Search</button>
+                        </form>
                         <table class="w-full text-sm text-left border border-gray-200 dark:border-gray-700 rounded-lg">
                             <thead class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 uppercase text-xs font-semibold">
                                 <tr>
